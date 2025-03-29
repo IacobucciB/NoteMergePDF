@@ -3,6 +3,7 @@ from tkinter import ttk
 
 def create_window():
     window = tk.Tk()
+    window.tk.call('tk', 'scaling', 2.0)
     window.title("Note Merge PDF")
     window.option_add("*tearOff", False)
     window.geometry("800x600")
