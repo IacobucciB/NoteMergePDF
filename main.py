@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 import logging
+import os
 
 class App:
     def __init__(self):
@@ -43,13 +44,15 @@ class App:
         self.select_files_button.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
     
     def __getfiles(self):
-        files = filedialog.askopenfilename(title="Select PDFs", filetypes=[("PDF files", "*.pdf")])
-        if files:
-            self.pdf_files.append(files)
-            self.file_listbox.insert(tk.END, files)
+        current_folder = os.getcwd()
+        pdf_files = [f for f in os.listdir(current_folder) if f.endswith('.pdf')]
+        self.pdf_files.extend(pdf_files)
+        self.file_listbox.delete(0, tk.END)
+        for file in pdf_files:
+            self.file_listbox.insert(tk.END, file)
         logging.basicConfig(level=logging.INFO)
-        logging.info(f"Selected files: {files}")
-        logging.info(f"Files in App : {self.pdf_files}")
+        logging.info(f"Automatically selected files: {pdf_files}")
+        logging.info(f"Files in App: {self.pdf_files}")
         
 
     def start_mainloop(self):

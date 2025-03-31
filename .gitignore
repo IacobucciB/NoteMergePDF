@@ -1,6 +1,9 @@
 # Forest Theme
 Forest-ttk-theme/
 
+# PDF for Testing
+*.pdf
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
