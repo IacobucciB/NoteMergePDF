@@ -4,6 +4,9 @@ Forest-ttk-theme/
 # PDF for Testing
 *.pdf
 
+# Executables
+*.exe
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
