@@ -39,8 +39,17 @@ class App:
         self.file_listbox = tk.Listbox(parent)
         self.file_listbox.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
 
+        self.up_button = ttk.Button(parent, text="Up", command=self.__move_up)
+        self.up_button.grid(row=1, column=0, sticky="w", padx=5, pady=5)
+
+        self.down_button = ttk.Button(parent, text="Down", command=self.__move_down)
+        self.down_button.grid(row=1, column=0, sticky="e", padx=5, pady=5)
+
         self.select_files_button = ttk.Button(parent, text="Select Files", command=self.__getfiles)
-        self.select_files_button.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+        self.select_files_button.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
+
+        self.merge_button = ttk.Button(parent, text="Merge", command=self.__merge_files)
+        self.merge_button.grid(row=3, column=0, sticky="ew", padx=5, pady=5)
     
     def __getfiles(self):
         current_folder = os.getcwd()
@@ -53,6 +62,28 @@ class App:
         logging.info(f"Automatically selected files: {pdf_files}")
         logging.info(f"Files in App: {self.pdf_files}")
         
+    def __merge_files(self):
+        logging.info(f"Merge Files")
+
+    def __move_up(self):
+        selected_index = self.file_listbox.curselection()
+        if selected_index:
+            index = selected_index[0]
+            if index > 0:
+                self.file_listbox.delete(index)
+                self.file_listbox.insert(index - 1, self.pdf_files[index])
+                self.file_listbox.selection_set(index - 1)
+                self.pdf_files[index], self.pdf_files[index - 1] = self.pdf_files[index - 1], self.pdf_files[index]
+
+    def __move_down(self):
+        selected_index = self.file_listbox.curselection()
+        if selected_index:
+            index = selected_index[0]
+            if index < len(self.pdf_files) - 1:
+                self.file_listbox.delete(index)
+                self.file_listbox.insert(index + 1, self.pdf_files[index])
+                self.file_listbox.selection_set(index + 1)
+                self.pdf_files[index], self.pdf_files[index + 1] = self.pdf_files[index + 1], self.pdf_files[index]
 
     def start_mainloop(self):
         self.root.mainloop()
