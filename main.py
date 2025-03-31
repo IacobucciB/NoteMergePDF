@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import logging
 import os
+import sys
 from merge_lib import merge_pdfs, get_pdf_page_counts, merge_selected_pages
 
 class App:
@@ -15,8 +16,17 @@ class App:
         root.title("Note Merge PDF")
         root.option_add("*tearOff", False)
         root.geometry("900x600")
-        root.tk.call("source", "Forest-ttk-theme/forest-dark.tcl")
-        ttk.Style().theme_use("forest-dark")
+    
+        if hasattr(sys, '_MEIPASS'):
+            theme_path = os.path.join(sys._MEIPASS, "Forest-ttk-theme", "forest-dark.tcl")
+        else:
+            theme_path = os.path.join(os.getcwd(), "Forest-ttk-theme", "forest-dark.tcl")
+    
+        if os.path.exists(theme_path):
+            root.tk.call("source", theme_path)
+            ttk.Style().theme_use("forest-dark")
+        else:
+            print(f"Error: No se encontró el archivo {theme_path}")
         return root
 
     def create_layout(self):
