@@ -11,59 +11,72 @@ class App:
     
     def __create_root(self):
         root = tk.Tk()
-        root.tk.call('tk', 'scaling', 2.0)
+        root.tk.call('tk', 'scaling', 1.5)
         root.title("Note Merge PDF")
         root.option_add("*tearOff", False)
-        root.geometry("800x600")
+        root.geometry("900x600")
         root.tk.call("source", "Forest-ttk-theme/forest-dark.tcl")
         ttk.Style().theme_use("forest-dark")
         return root
 
     def create_layout(self):
-        self.root.columnconfigure(0, weight=2)
-        self.root.columnconfigure(1, weight=8)
+        self.root.columnconfigure(0, weight=3)
+        self.root.columnconfigure(1, weight=7)
         self.root.rowconfigure(0, weight=1)
 
-        left_frame = tk.Frame(self.root)
+        left_frame = tk.Frame(self.root, bg="#2b2b2b", padx=10, pady=10)
         left_frame.grid(row=0, column=0, sticky="nsew")
         left_frame.rowconfigure(0, weight=1)
         left_frame.rowconfigure(1, weight=0)
         left_frame.columnconfigure(0, weight=1)
+        left_frame.columnconfigure(1, weight=0)
 
-        right_frame = tk.Frame(self.root)
+        right_frame = tk.Frame(self.root, bg="#2b2b2b", padx=10, pady=10)
         right_frame.grid(row=0, column=1, sticky="nsew")
         right_frame.rowconfigure(0, weight=1)
         right_frame.rowconfigure(1, weight=0)
         right_frame.columnconfigure(0, weight=1)
+        right_frame.columnconfigure(1, weight=0)
 
         self.create_buttons(left_frame)
         self.create_right_panel(right_frame)
 
     def create_buttons(self, parent):
-        self.file_listbox = tk.Listbox(parent)
+        self.file_listbox = tk.Listbox(parent, bg="#1e1e1e", fg="white", selectbackground="#3a3a3a", relief="flat")
         self.file_listbox.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
 
-        self.up_button = ttk.Button(parent, text="Up", command=self.__move_up)
-        self.up_button.grid(row=1, column=0, sticky="w", padx=5, pady=5)
+        file_scrollbar = ttk.Scrollbar(parent, orient="vertical", command=self.file_listbox.yview)
+        file_scrollbar.grid(row=0, column=1, sticky="ns", padx=5)
+        self.file_listbox.config(yscrollcommand=file_scrollbar.set)
 
-        self.down_button = ttk.Button(parent, text="Down", command=self.__move_down)
-        self.down_button.grid(row=1, column=0, sticky="e", padx=5, pady=5)
+        button_frame = tk.Frame(parent, bg="#2b2b2b")
+        button_frame.grid(row=1, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
+
+        self.up_button = ttk.Button(button_frame, text="Up", command=self.__move_up)
+        self.up_button.grid(row=0, column=0, padx=5)
+
+        self.down_button = ttk.Button(button_frame, text="Down", command=self.__move_down)
+        self.down_button.grid(row=0, column=1, padx=5)
 
         self.select_files_button = ttk.Button(parent, text="Select Files", command=self.__getfiles)
-        self.select_files_button.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
+        self.select_files_button.grid(row=2, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
 
         self.split_button = ttk.Button(parent, text="Split", command=self.__split_files)
-        self.split_button.grid(row=3, column=0, sticky="ew", padx=5, pady=5)
+        self.split_button.grid(row=3, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
 
         self.merge_button = ttk.Button(parent, text="Merge", command=self.__merge_files)
-        self.merge_button.grid(row=4, column=0, sticky="ew", padx=5, pady=5)
+        self.merge_button.grid(row=4, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
 
     def create_right_panel(self, parent):
-        self.page_listbox = tk.Listbox(parent)
+        self.page_listbox = tk.Listbox(parent, bg="#1e1e1e", fg="white", selectbackground="#3a3a3a", relief="flat")
         self.page_listbox.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
 
-        button_frame = tk.Frame(parent)
-        button_frame.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+        page_scrollbar = ttk.Scrollbar(parent, orient="vertical", command=self.page_listbox.yview)
+        page_scrollbar.grid(row=0, column=1, sticky="ns", padx=5)
+        self.page_listbox.config(yscrollcommand=page_scrollbar.set)
+
+        button_frame = tk.Frame(parent, bg="#2b2b2b")
+        button_frame.grid(row=1, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
 
         self.page_up_button = ttk.Button(button_frame, text="Up", command=self.__move_page_up)
         self.page_up_button.grid(row=0, column=0, padx=5)
@@ -90,7 +103,7 @@ class App:
             logging.warning("No files selected for merging.")
             return
         logging.info(f"Merging files: {self.pdf_files}")
-        merge_pdfs(self.pdf_files)  # Call the merge_pdfs function
+        merge_pdfs(self.pdf_files)
         logging.info("Merge operation completed.")
 
     def __split_files(self):
