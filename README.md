@@ -10,42 +10,51 @@ NoteMergePDF is a Python-based desktop application for merging and managing PDF 
 - **Page Selection**: Select specific pages from multiple PDFs and merge them into a new document.
 - **User-Friendly Interface**: Built with Tkinter for a clean and responsive GUI.
 
-## Installation
+## Installation and Usage
 
-1. Clone the repository:
+### For Developers
+
+1. **Clone the Repository:**
    ```bash
    git clone https://github.com/IacobucciB/NoteMergePDF
    cd NoteMergePDF
    ```
 
-2. Install the required dependencies:
+2. **Install the Required Dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Run the application:
+3. **Run the Application:**
    ```bash
    python main.py
    ```
 
-## Usage
+### For End Users (Release Executable)
 
-1. Launch the application.
-2. Use the **Select Files** button to add PDF files to the list.
-3. Reorder files using the **Up** and **Down** buttons.
-4. Split files into individual pages using the **Split** button.
-5. Select specific pages or files and merge them using the **Merge** button.
-6. Save the output PDF to your desired location.
+The release package includes an executable file generated using PyInstaller. Note that the executable is designed to pick up PDF files only from the **current folder** where it is run.
+
+1. **Extract the Release Package:**
+   - Unzip the release package (e.g., `NoteMergePDF_v1.0.Y.zip`) to your desired folder.
+
+2. **Place Your PDF Files:**
+   - Move or copy the PDF files you wish to work with into the same folder where the executable is located.
+
+3. **Run the Executable:**
+   - Double-click the executable file (e.g., `NoteMergePDF.exe`) to launch the application.
+   - The application will automatically list any PDF files found in the current folder.
+   - Use the **Select Files** button if needed, but note that the executable searches for PDF files only in the current folder.
+
+4. **Application Workflow:**
+   - **Reorder Files:** Use the **Up** and **Down** buttons to change the order of PDF files.
+   - **Split PDFs:** Use the **Split** button to break PDFs into individual pages, which are displayed in the right panel.
+   - **Merge Files/Pages:** Use the **Merge** button to combine the selected files or pages into a new PDF.
+   - **Save the Output:** Choose the location to save the merged PDF document.
 
 ## Screenshots
 
-![Main Interface](NoteMergePDF.png)
+![Main Interface](NoteMergePDF.png)  
 *Screenshot of the application's main interface.*
-
-## Requirements
-
-- Python 3.7 or higher
-- Dependencies listed in `requirements.txt`
 
 ## Logging
 
