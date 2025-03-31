@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import logging
 import os
+from merge_lib import merge_pdfs
 
 class App:
     def __init__(self):
@@ -63,7 +64,12 @@ class App:
         logging.info(f"Files in App: {self.pdf_files}")
         
     def __merge_files(self):
-        logging.info(f"Merge Files")
+        if not self.pdf_files:
+            logging.warning("No files selected for merging.")
+            return
+        logging.info(f"Merging files: {self.pdf_files}")
+        merge_pdfs(self.pdf_files)  # Call the merge_pdfs function
+        logging.info("Merge operation completed.")
 
     def __move_up(self):
         selected_index = self.file_listbox.curselection()
