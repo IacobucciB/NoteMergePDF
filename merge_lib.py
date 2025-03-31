@@ -1,4 +1,4 @@
-from PyPDF2 import PdfMerger
+from PyPDF2 import PdfMerger, PdfReader
 import logging
 
 def merge_pdfs(pdf_files, output_filename="out.pdf"):
@@ -18,3 +18,15 @@ def merge_pdfs(pdf_files, output_filename="out.pdf"):
         return None
     finally:
         merger.close()
+
+def get_pdf_page_counts(pdf_files):
+    result = []
+    for pdf in pdf_files:
+        try:
+            reader = PdfReader(pdf)
+            num_pages = len(reader.pages)
+            result.append((pdf, num_pages))
+            logging.info(f"{pdf} has {num_pages} pages.")
+        except Exception as e:
+            logging.error(f"Failed to read {pdf}: {e}")
+    return result
